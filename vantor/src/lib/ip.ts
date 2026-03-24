@@ -1,7 +1,7 @@
 import { createHmac } from "crypto";
 import { headers } from "next/headers";
-export function getClientIp(): string | null {
-  const hdrs = headers();
+export async function getClientIp(): Promise<string | null> {
+  const hdrs = await headers();
   return (
     hdrs.get("x-real-ip") ||
     hdrs.get("x-forwarded-for")?.split(",")[0].trim() ||

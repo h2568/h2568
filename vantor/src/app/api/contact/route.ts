@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   const contentLength = req.headers.get("content-length");
   if (contentLength && parseInt(contentLength, 10) > MAX_BODY_BYTES)
     return NextResponse.json({ error: "Request too large." }, { status: 413 });
-  const rawIp  = getClientIp();
+  const rawIp  = await getClientIp();
   const ipHash = hashIp(rawIp);
   const { allowed } = await checkRateLimit(ipHash, "contact");
   if (!allowed)

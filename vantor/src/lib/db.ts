@@ -57,14 +57,14 @@ export async function getSubmissionsPage(page: number): Promise<{
   const sql = getDb();
   const offset = (page - 1) * PAGE_SIZE;
   const [rows, countResult] = await Promise.all([
-    sql<Submission[]>`
+    sql`
       SELECT id, full_name, company, phone, email, location,
              crew_type, event_dates, message, ip_hash, created_at
       FROM submissions
       ORDER BY created_at DESC
       LIMIT ${PAGE_SIZE} OFFSET ${offset}
-    `,
-    sql<[{ count: string }]>`SELECT COUNT(*)::text AS count FROM submissions`,
+    ` as unknown as Promise<Submission[]>,
+    sql`SELECT COUNT(*)::text AS count FROM submissions` as unknown as Promise<{ count: string }[]>,
   ]);
   return {
     rows,

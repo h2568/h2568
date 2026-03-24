@@ -5,7 +5,7 @@ export const contactSchema = z.object({
   phone:       z.string().min(7, "Please enter a valid phone number.").max(30),
   email:       z.string().email("Please enter a valid email address.").max(254),
   location:    z.enum(["London", "Manchester", "Other"], {
-                 errorMap: () => ({ message: "Please select a location." }),
+                 error: "Please select a location.",
                }),
   crew_type:   z.enum([
                  "Crew Boss / Site Supervisor",
@@ -14,7 +14,7 @@ export const contactSchema = z.object({
                  "Festival & Touring Crew",
                  "Telehandler Operators",
                  "Mixed crew package",
-               ], { errorMap: () => ({ message: "Please select a crew type." }) }),
+               ], { error: "Please select a crew type." }),
   event_dates: z.string().min(3, "Please provide your event dates.").max(200),
   message:     z.string().max(2000).optional(),
   cf_turnstile_response: z.string().optional(),

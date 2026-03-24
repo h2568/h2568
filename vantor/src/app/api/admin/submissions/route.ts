@@ -19,7 +19,7 @@ function parseBasicAuth(header: string | null) {
   } catch { return null; }
 }
 export async function GET(req: NextRequest) {
-  const rawIp  = getClientIp();
+  const rawIp  = await getClientIp();
   const ipHash = hashIp(rawIp);
   const { allowed } = await checkRateLimit(ipHash, "admin");
   if (!allowed)
