@@ -40,8 +40,13 @@ function checkpointCommand(program) {
     .command("restore <id>")
     .description("Restore a checkpoint by ID")
     .action((id) => {
-      restoreCheckpoint(id);
-      console.log(`Restored checkpoint: ${id}`);
+      try {
+        restoreCheckpoint(id);
+        console.log(`Restored checkpoint: ${id}`);
+      } catch (err) {
+        console.error(`Error: ${err.message}`);
+        process.exit(1);
+      }
     });
 
   return cmd;

@@ -13,6 +13,8 @@ export interface CheckpointOptions {
 export interface Checkpoint {
   id: string;
   createdAt: string;
+  createdAtMs: number;
+  seq: number;
   metadata: Record<string, unknown>;
   state: Record<string, unknown>;
 }
@@ -20,10 +22,12 @@ export interface Checkpoint {
 export class CheckpointManager {
   private dir: string;
   private max: number;
+  private _seq: number;
 
   constructor(options?: CheckpointOptions) {
     this.dir = options?.dir ?? DEFAULT_DIR;
     this.max = options?.max ?? DEFAULT_MAX;
+    this._seq = 0;
     this._ensureDir();
   }
 
@@ -42,6 +46,8 @@ export class CheckpointManager {
     const checkpoint: Checkpoint = {
       id,
       createdAt: new Date().toISOString(),
+      createdAtMs: Date.now(),
+      seq: ++this._seq,
       metadata: metadata ?? {},
       state: state ?? {},
     };
@@ -68,7 +74,11 @@ export class CheckpointManager {
         }
       })
       .filter((c): c is Checkpoint => c !== null)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      .sort((a, b) => {
+        const msDiff = (b.createdAtMs ?? 0) - (a.createdAtMs ?? 0);
+        if (msDiff !== 0) return msDiff;
+        return (b.seq ?? 0) - (a.seq ?? 0);
+      });
   }
 
   restore(id: string): Record<string, unknown> {

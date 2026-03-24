@@ -12,6 +12,7 @@ const DEFAULT_MAX = 50;
 function CheckpointManager(options) {
   this.dir = (options && options.dir) || DEFAULT_DIR;
   this.max = (options && options.max) || DEFAULT_MAX;
+  this._seq = 0;
   this._ensureDir();
 }
 
@@ -30,6 +31,8 @@ CheckpointManager.prototype.create = function (state, metadata) {
   const checkpoint = {
     id,
     createdAt: new Date().toISOString(),
+    createdAtMs: Date.now(),
+    seq: ++this._seq,
     metadata: metadata || {},
     state: state || {},
   };
@@ -59,7 +62,11 @@ CheckpointManager.prototype.list = function () {
       }
     })
     .filter(Boolean)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    .sort((a, b) => {
+      const msDiff = (b.createdAtMs || 0) - (a.createdAtMs || 0);
+      if (msDiff !== 0) return msDiff;
+      return (b.seq || 0) - (a.seq || 0);
+    });
 };
 
 CheckpointManager.prototype.restore = function (id) {
