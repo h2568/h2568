@@ -1,0 +1,66 @@
+<svg viewBox="0 0 240 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vantor Crew">
+  <defs>
+    <!-- Gold gradient: dark outer edge → bright face → highlight -->
+    <linearGradient id="goldL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#6B4A0A"/>
+      <stop offset="35%"  stop-color="#B8820E"/>
+      <stop offset="65%"  stop-color="#E8A800"/>
+      <stop offset="100%" stop-color="#F5C400"/>
+    </linearGradient>
+    <!-- Gold inner highlight face -->
+    <linearGradient id="goldHL" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%"   stop-color="#F5C400"/>
+      <stop offset="100%" stop-color="#C8900A"/>
+    </linearGradient>
+    <!-- Silver gradient: grey → bright → white -->
+    <linearGradient id="silverL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#C0C0C0"/>
+      <stop offset="40%"  stop-color="#E8E8E8"/>
+      <stop offset="75%"  stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D0D0D0"/>
+    </linearGradient>
+    <!-- Silver inner face -->
+    <linearGradient id="silverHL" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%"   stop-color="#888888"/>
+      <stop offset="50%"  stop-color="#B8B8B8"/>
+      <stop offset="100%" stop-color="#D0D0D0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── LEFT ARM OF V ── -->
+  <!-- Outer/dark face (left side of arm) -->
+  <polygon points="18,8  46,8  103,152  98,172" fill="url(#goldL)"/>
+  <!-- Inner/bright face (right side of arm — the lit face) -->
+  <polygon points="46,8  72,8  107,152  103,152" fill="url(#goldHL)"/>
+
+  <!-- ── RIGHT ARM OF V ── -->
+  <!-- Inner/dark face (left side of arm) -->
+  <polygon points="168,8  133,8  133,8  113,152  117,152" fill="url(#silverHL)"/>
+  <!-- Outer/bright face (right side of arm — the lit face) -->
+  <polygon points="168,8  222,8  142,172  117,152" fill="url(#silverL)"/>
+
+  <!-- ── TEXT: VANTOR CREW ── -->
+  <text
+    x="120" y="215"
+    text-anchor="middle"
+    font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif"
+    font-weight="700"
+    font-size="20"
+    letter-spacing="6"
+    fill="#FFFFFF">VANTOR CREW</text>
+  <text
+    x="198" y="207"
+    font-family="Arial,sans-serif"
+    font-size="9"
+    fill="#CCCCCC">®</text>
+
+  <!-- ── TAGLINE ── -->
+  <text
+    x="120" y="238"
+    text-anchor="middle"
+    font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif"
+    font-weight="400"
+    font-size="9.5"
+    letter-spacing="2.5"
+    fill="#C9900A">Presence. Power. Precision.</text>
+</svg>

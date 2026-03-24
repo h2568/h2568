@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { siteConfig } from "@/lib/config";
 
@@ -42,9 +43,15 @@ export default function HomePage() {
       {/* ── NAV ── */}
       <header className="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-border">
         <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-          <a href="/" className="font-heading font-bold text-lg tracking-tight">
-            <span className="text-white">VANTOR</span>
-            <span className="text-accent"> CREW</span>
+          <a href="/" aria-label="Vantor Crew — home">
+            <Image
+              src="/vantor-logo.svg"
+              alt="Vantor Crew"
+              width={110}
+              height={52}
+              priority
+              className="h-10 w-auto"
+            />
           </a>
           <div className="flex items-center gap-3">
             <a
@@ -252,11 +259,13 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-5 py-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
-              <p className="font-heading font-bold text-base mb-1">
-                <span className="text-white">VANTOR</span>
-                <span className="text-accent"> CREW</span>
-              </p>
-              <p className="text-xs text-muted">{siteConfig.tagline}</p>
+              <Image
+                src="/vantor-logo.svg"
+                alt="Vantor Crew"
+                width={100}
+                height={48}
+                className="h-12 w-auto opacity-90"
+              />
             </div>
             <div className="flex flex-wrap gap-4 text-xs text-muted">
               <a href={`tel:${siteConfig.phone}`} className="hover:text-white transition-colors">
