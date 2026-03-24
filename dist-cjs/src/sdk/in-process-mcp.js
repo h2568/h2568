@@ -43,7 +43,7 @@ InProcessMcp.prototype.request = async function (method, params) {
   try {
     result = await this._dispatch(method, params);
   } catch (err) {
-    this.emit("error", { id, method, error: err });
+    this.emit("request:error", { id, method, error: err });
     throw err;
   }
 
