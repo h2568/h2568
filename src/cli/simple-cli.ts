@@ -1,16 +1,10 @@
-#!/usr/bin/env node
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCli = createCli;
-exports.run = run;
-
-const { Command } = require("commander");
-const { checkpointCommand } = require("./commands/checkpoint");
-const { formatCommandHelp } = require("./help-formatter");
+import { Command } from "commander";
+import { checkpointCommand } from "./commands/checkpoint";
+import { formatCommandHelp } from "./help-formatter";
 
 const VERSION = "1.0.0";
 
-function createCli() {
+export function createCli(): Command {
   const program = new Command();
 
   program
@@ -23,9 +17,7 @@ function createCli() {
         formatCommandHelp(
           "claude-flow",
           "",
-          [
-            { name: "checkpoint", description: "Manage checkpoints" },
-          ],
+          [{ name: "checkpoint", description: "Manage checkpoints" }],
           [],
           [
             "claude-flow checkpoint create my-save",
@@ -46,9 +38,9 @@ function createCli() {
   return program;
 }
 
-function run(argv) {
+export function run(argv?: string[]): Command {
   const cli = createCli();
-  cli.parse(argv || process.argv);
+  cli.parse(argv ?? process.argv);
   return cli;
 }
 
