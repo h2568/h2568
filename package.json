@@ -4,7 +4,7 @@
   "description": "Claude Flow - AI agent orchestration CLI and SDK",
   "main": "dist-cjs/src/sdk/claude-flow-mcp-integration.js",
   "bin": {
-    "claude-flow": "dist-cjs/src/cli/simple-cli.js"
+    "claude-flow": "bin/claude-flow.js"
   },
   "exports": {
     ".": "./dist-cjs/src/sdk/claude-flow-mcp-integration.js",
@@ -13,6 +13,7 @@
     "./cli": "./dist-cjs/src/cli/simple-cli.js"
   },
   "files": [
+    "bin/",
     "dist-cjs/",
     ".claude-flow/",
     ".claude-plugin/",
@@ -37,8 +38,8 @@
     "commander": "^12.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.19.37",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0"
