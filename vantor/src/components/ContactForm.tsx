@@ -67,22 +67,20 @@ export function ContactForm({ compact = false, defaultLocation }: Props) {
       {status === "error" && errMsg && (
         <div role="alert" className="bg-red-500/10 border border-red-500/30 rounded p-3 mb-5 text-sm text-red-400">{errMsg}</div>
       )}
-      {!compact && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-          <Field label="Full Name" required error={fieldErrors.full_name}>
-            <input className={inp(fieldErrors.full_name)} type="text" placeholder="Jane Smith" value={form.full_name ?? ""} onChange={e => set("full_name", e.target.value)} />
-          </Field>
-          <Field label="Company" required error={fieldErrors.company}>
-            <input className={inp(fieldErrors.company)} type="text" placeholder="Production Co." value={form.company ?? ""} onChange={e => set("company", e.target.value)} />
-          </Field>
-          <Field label="Phone" required error={fieldErrors.phone}>
-            <input className={inp(fieldErrors.phone)} type="tel" placeholder="+44 7700 000000" value={form.phone ?? ""} onChange={e => set("phone", e.target.value)} />
-          </Field>
-          <Field label="Email" required error={fieldErrors.email}>
-            <input className={inp(fieldErrors.email)} type="email" placeholder="jane@example.com" value={form.email ?? ""} onChange={e => set("email", e.target.value)} />
-          </Field>
-        </div>
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <Field label="Full Name" required error={fieldErrors.full_name}>
+          <input className={inp(fieldErrors.full_name)} type="text" placeholder="Jane Smith" value={form.full_name ?? ""} onChange={e => set("full_name", e.target.value)} />
+        </Field>
+        <Field label="Company" required error={fieldErrors.company}>
+          <input className={inp(fieldErrors.company)} type="text" placeholder="Production Co." value={form.company ?? ""} onChange={e => set("company", e.target.value)} />
+        </Field>
+        <Field label="Phone" required error={fieldErrors.phone}>
+          <input className={inp(fieldErrors.phone)} type="tel" placeholder="+44 7700 000000" value={form.phone ?? ""} onChange={e => set("phone", e.target.value)} />
+        </Field>
+        <Field label="Email" required error={fieldErrors.email}>
+          <input className={inp(fieldErrors.email)} type="email" placeholder="jane@example.com" value={form.email ?? ""} onChange={e => set("email", e.target.value)} />
+        </Field>
+      </div>
       <div className={`grid gap-3 mb-3 ${compact ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-1 sm:grid-cols-2"}`}>
         <Field label="Location" required error={fieldErrors.location}>
           <select className={inp(fieldErrors.location)} value={form.location ?? ""} onChange={e => set("location", e.target.value)}>
@@ -105,6 +103,7 @@ export function ContactForm({ compact = false, defaultLocation }: Props) {
           <textarea className={`${inp(fieldErrors.message)} resize-y min-h-[90px]`} placeholder="Crew numbers, event type, site conditions…" value={form.message ?? ""} onChange={e => set("message", e.target.value)} />
         </Field>
       )}
+
       <noscript>
         <p className="text-sm text-muted mb-3 p-3 border border-border rounded">
           Please call <a href={`tel:${siteConfig.phone}`} className="text-accent font-semibold">{siteConfig.phoneDisplay}</a> or email <a href={`mailto:${siteConfig.email}`} className="text-accent font-semibold">{siteConfig.email}</a>.

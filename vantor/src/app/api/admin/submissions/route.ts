@@ -27,6 +27,9 @@ export async function GET(req: NextRequest) {
   const creds     = parseBasicAuth(req.headers.get("authorization"));
   const adminUser = process.env.ADMIN_USER     ?? "admin";
   const adminPass = process.env.ADMIN_PASSWORD ?? "";
+  if (!adminPass) {
+    return new NextResponse("Admin not configured.", { status: 503 });
+  }
   if (!creds || !timingSafeCompare(creds.user, adminUser) || !timingSafeCompare(creds.pass, adminPass)) {
     return new NextResponse("Unauthorised", {
       status: 401,

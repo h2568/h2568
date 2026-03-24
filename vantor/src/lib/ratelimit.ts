@@ -15,8 +15,9 @@ async function redisIncr(key: string, windowSecs: number): Promise<number> {
     ]),
   });
   if (!res.ok) throw new Error(`Upstash error: ${res.status}`);
-  const data: [[string, number], [string, number]] = await res.json();
-  return data[0][1];
+  // Upstash REST pipeline returns [{ result: N, error: null }, ...]
+  const data: Array<{ result: number; error: string | null }> = await res.json();
+  return data[0].result;
 }
 const memStore = new Map<string, { count: number; expiresAt: number }>();
 function memIncr(key: string, windowSecs: number): number {
@@ -34,14 +35,14 @@ export async function checkRateLimit(
   type: "contact" | "admin" = "contact"
 ): Promise<{ allowed: boolean }> {
   if (!key) return { allowed: true };
-  const limit    = type === "admin" ? ADMIN_LIMIT    : CONTACT_LIMIT;
-  const window   = type === "admin" ? ADMIN_WINDOW   : CONTACT_WINDOW;
-  const redisKey = `rl:${type}:${key}`;
+  const limit      = type === "admin" ? ADMIN_LIMIT    : CONTACT_LIMIT;
+  const windowSecs = type === "admin" ? ADMIN_WINDOW   : CONTACT_WINDOW;
+  const redisKey   = `rl:${type}:${key}`;
   try {
-    const count = await redisIncr(redisKey, window);
+    const count = await redisIncr(redisKey, windowSecs);
     return { allowed: count <= limit };
   } catch {
-    const count = memIncr(redisKey, window);
+    const count = memIncr(redisKey, windowSecs);
     return { allowed: count <= limit };
   }
 }
