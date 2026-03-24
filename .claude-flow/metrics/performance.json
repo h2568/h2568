@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-24T00:00:00Z",
+  "metrics": {
+    "taskCompletion": {
+      "totalTasks": 0,
+      "completedTasks": 0,
+      "failedTasks": 0,
+      "averageDurationMs": 0
+    },
+    "agentPerformance": {
+      "totalAgentRuns": 0,
+      "successfulRuns": 0,
+      "failedRuns": 0,
+      "averageResponseTimeMs": 0,
+      "tokenUsage": {
+        "totalInputTokens": 0,
+        "totalOutputTokens": 0
+      }
+    },
+    "toolUsage": {
+      "totalToolCalls": 0,
+      "successfulCalls": 0,
+      "failedCalls": 0,
+      "callsByTool": {}
+    },
+    "sessionMetrics": {
+      "totalSessions": 0,
+      "averageSessionDurationMs": 0,
+      "averageTasksPerSession": 0
+    }
+  },
+  "history": []
+}
