@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "model": "claude-opus-4-6",
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "env": {},
+  "hooks": {
+    "PreToolUse": [],
+    "PostToolUse": [],
+    "Stop": []
+  }
+}

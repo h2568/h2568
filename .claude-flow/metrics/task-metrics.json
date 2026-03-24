@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-24T00:00:00Z",
+  "tasks": {
+    "total": 0,
+    "completed": 0,
+    "failed": 0,
+    "inProgress": 0,
+    "pending": 0
+  },
+  "byType": {},
+  "byAgent": {},
+  "durations": {
+    "minMs": 0,
+    "maxMs": 0,
+    "averageMs": 0,
+    "p50Ms": 0,
+    "p95Ms": 0,
+    "p99Ms": 0
+  },
+  "recentTasks": []
+}
