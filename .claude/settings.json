@@ -47,7 +47,9 @@
       "Bash(git push -f:*)",
       "Bash(git clean -f:*)",
       "Bash(git branch -D:*)",
-      "Bash(git checkout -- :*)"
+      "Bash(git checkout -- :*)",
+      "Bash(npm publish:*)",
+      "Bash(npm publish)"
     ]
   },
   "env": {
@@ -62,11 +64,38 @@
             "type": "command",
             "command": "jq -r '\"[\\(.session_id // \"unknown\" | .[0:8])] \\(.tool_input.command // \"\")\"' >> ~/.claude/bash-log.txt 2>/dev/null || true",
             "async": true
+          },
+          {
+            "if": "Bash(git commit:*)",
+            "type": "command",
+            "command": "output=$(cd /home/user/h2568 && npx tsc --noEmit 2>&1); [ -n \"$output\" ] && echo \"$output\" | jq -Rs '{\"decision\":\"block\",\"reason\":(\"TypeScript errors — fix before committing:\\n\" + .)}' || true"
           }
         ]
       }
     ],
-    "PostToolUse": [],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // \"\"'); echo \"$f\" | grep -q '\\.ts$' && cd /home/user/h2568 && npm run build 2>&1 | tail -20 || true",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '{\"hookSpecificOutput\":{\"hookEventName\":\"PostCompact\",\"additionalContext\":\"You are working on claude-flow: a TypeScript CLI/SDK for AI agent orchestration. Source in src/, compiled to dist-cjs/. Build: npm run build. Type check: npx tsc --noEmit. CLI entry: src/cli/simple-cli.ts. SDK: src/sdk/claude-flow-mcp-integration.ts. Checkpoints stored in .claude-flow/checkpoints/. Available skills: /build /typecheck /test /checkpoint /reset /explain /audit /stats /docs\"}}'"
+          }
+        ]
+      }
+    ],
     "Stop": [],
     "SessionStart": [
       {
@@ -74,7 +103,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -d /home/user/h2568/node_modules ] || (cd /home/user/h2568 && npm install --silent 2>/dev/null) || true"
+            "command": "{ [ -d /home/user/h2568/node_modules ] || (cd /home/user/h2568 && npm install --silent 2>/dev/null); [ -d /home/user/h2568/dist-cjs ] || (cd /home/user/h2568 && npm run build 2>/dev/null); } || true"
           }
         ]
       }
