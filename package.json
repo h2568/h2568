@@ -22,7 +22,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist-cjs/src/cli/simple-cli.js",
-    "test": "node --test src/**/*.test.ts 2>/dev/null || echo 'No tests found'"
+    "pretest": "tsc -p tsconfig.json",
+    "test": "node --test $(find dist-cjs/src -name '*.test.js' 2>/dev/null | tr '\\n' ' ')"
   },
   "keywords": [
     "claude",
