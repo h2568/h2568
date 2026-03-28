@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { checkpointCommand } from "./commands/checkpoint";
+import { runCommand } from "./commands/run";
 import { formatCommandHelp } from "./help-formatter";
 
 const VERSION = "1.0.0";
@@ -17,16 +18,21 @@ export function createCli(): Command {
         formatCommandHelp(
           "claude-flow",
           "",
-          [{ name: "checkpoint", description: "Manage checkpoints" }],
+          [
+            { name: "run", description: "Run an AI agent with a prompt" },
+            { name: "checkpoint", description: "Manage checkpoints" },
+          ],
           [],
           [
+            "claude-flow run \"summarise the src/ directory\"",
+            "claude-flow run --tools \"list the TypeScript files and count lines\"",
             "claude-flow checkpoint create my-save",
             "claude-flow checkpoint list",
-            "claude-flow checkpoint restore cp_1234567890",
           ]
         )
     );
 
+  runCommand(program);
   checkpointCommand(program);
 
   program.on("command:*", () => {

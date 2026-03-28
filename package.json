@@ -8,6 +8,7 @@
   },
   "exports": {
     ".": "./dist-cjs/src/sdk/claude-flow-mcp-integration.js",
+    "./agent-loop": "./dist-cjs/src/sdk/agent-loop.js",
     "./checkpoint-manager": "./dist-cjs/src/sdk/checkpoint-manager.js",
     "./in-process-mcp": "./dist-cjs/src/sdk/in-process-mcp.js",
     "./cli": "./dist-cjs/src/cli/simple-cli.js"
@@ -36,6 +37,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "commander": "^14.0.3"
   },
   "devDependencies": {

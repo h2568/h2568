@@ -1,10 +1,13 @@
 import { CheckpointManager, Checkpoint } from "./checkpoint-manager";
+import { AgentLoop, AgentOptions, AgentResult, MessagesApi } from "./agent-loop";
 
 export interface McpIntegrationOptions {
   checkpoints?: boolean;
   metrics?: boolean;
   hooks?: boolean;
   checkpointDir?: string;
+  /** Override Anthropic API client — used in tests to avoid real network calls. */
+  _testApi?: MessagesApi;
 }
 
 type ToolHandler = (params: Record<string, unknown>) => Promise<unknown>;
@@ -110,6 +113,38 @@ export class ClaudeFlowMcpIntegration {
       tools: this.listTools(),
       call: (toolName: string, params: Record<string, unknown>) => this.call(toolName, params),
     };
+  }
+
+  /**
+   * Run an agent loop with the registered tools wired in.
+   *
+   * @param prompt      The user's request
+   * @param agentOpts   Optional overrides for model, maxTurns, systemPrompt, etc.
+   * @param onText      Called with each text chunk as it arrives from the model
+   */
+  async run(
+    prompt: string,
+    agentOpts?: AgentOptions,
+    onText?: (text: string) => void
+  ): Promise<AgentResult> {
+    const loop = new AgentLoop(
+      {
+        checkpointDir: this.options.checkpointDir,
+        autoCheckpoint: this.options.checkpoints,
+        ...agentOpts,
+      },
+      this.options._testApi
+    );
+
+    for (const [name, { handler, schema }] of this._tools) {
+      const description =
+        typeof schema["description"] === "string"
+          ? schema["description"]
+          : `Tool: ${name}`;
+      loop.registerTool(name, description, schema, handler);
+    }
+
+    return loop.run(prompt, onText);
   }
 }
 

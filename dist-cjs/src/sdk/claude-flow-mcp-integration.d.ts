@@ -1,9 +1,12 @@
 import { Checkpoint } from "./checkpoint-manager";
+import { AgentOptions, AgentResult, MessagesApi } from "./agent-loop";
 export interface McpIntegrationOptions {
     checkpoints?: boolean;
     metrics?: boolean;
     hooks?: boolean;
     checkpointDir?: string;
+    /** Override Anthropic API client — used in tests to avoid real network calls. */
+    _testApi?: MessagesApi;
 }
 type ToolHandler = (params: Record<string, unknown>) => Promise<unknown>;
 type BeforeHook = (params: Record<string, unknown>) => Promise<void>;
@@ -41,6 +44,14 @@ export declare class ClaudeFlowMcpIntegration {
         }[];
         call: (toolName: string, params: Record<string, unknown>) => Promise<unknown>;
     };
+    /**
+     * Run an agent loop with the registered tools wired in.
+     *
+     * @param prompt      The user's request
+     * @param agentOpts   Optional overrides for model, maxTurns, systemPrompt, etc.
+     * @param onText      Called with each text chunk as it arrives from the model
+     */
+    run(prompt: string, agentOpts?: AgentOptions, onText?: (text: string) => void): Promise<AgentResult>;
 }
 export declare function createMcpIntegration(options?: McpIntegrationOptions): ClaudeFlowMcpIntegration;
 export {};

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClaudeFlowMcpIntegration = void 0;
 exports.createMcpIntegration = createMcpIntegration;
 const checkpoint_manager_1 = require("./checkpoint-manager");
+const agent_loop_1 = require("./agent-loop");
 const DEFAULT_OPTIONS = {
     checkpoints: true,
     metrics: true,
@@ -78,6 +79,27 @@ class ClaudeFlowMcpIntegration {
             tools: this.listTools(),
             call: (toolName, params) => this.call(toolName, params),
         };
+    }
+    /**
+     * Run an agent loop with the registered tools wired in.
+     *
+     * @param prompt      The user's request
+     * @param agentOpts   Optional overrides for model, maxTurns, systemPrompt, etc.
+     * @param onText      Called with each text chunk as it arrives from the model
+     */
+    async run(prompt, agentOpts, onText) {
+        const loop = new agent_loop_1.AgentLoop({
+            checkpointDir: this.options.checkpointDir,
+            autoCheckpoint: this.options.checkpoints,
+            ...agentOpts,
+        }, this.options._testApi);
+        for (const [name, { handler, schema }] of this._tools) {
+            const description = typeof schema["description"] === "string"
+                ? schema["description"]
+                : `Tool: ${name}`;
+            loop.registerTool(name, description, schema, handler);
+        }
+        return loop.run(prompt, onText);
     }
 }
 exports.ClaudeFlowMcpIntegration = ClaudeFlowMcpIntegration;
