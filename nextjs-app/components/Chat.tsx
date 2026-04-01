@@ -4,23 +4,31 @@ import { useEffect, useRef, KeyboardEvent } from "react";
 import { useChat } from "@/hooks/useChat";
 import { MessageBubble } from "./MessageBubble";
 
+const MODELS = [
+  { id: "claude-opus-4-6",           label: "Opus 4.6"   },
+  { id: "claude-sonnet-4-6",         label: "Sonnet 4.6" },
+  { id: "claude-haiku-4-5-20251001", label: "Haiku 4.5"  },
+];
+
 export interface ChatProps {
   title?: string;
   placeholder?: string;
   apiUrl?: string;
 }
 
-export function Chat({ title = "AI Assistant", placeholder = "Type a message…", apiUrl }: ChatProps) {
-  const { messages, input, isLoading, error, setInput, sendMessage, stop, clear } = useChat({ apiUrl });
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+export function Chat({ title = "Claude AI", placeholder = "Type a message…", apiUrl }: ChatProps) {
+  const {
+    messages, input, isLoading, error, usage,
+    model, setModel, setInput, sendMessage, stop, clear,
+  } = useChat({ apiUrl });
 
-  // Auto-scroll on new content
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef  = useRef<HTMLTextAreaElement>(null);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Auto-grow textarea
   useEffect(() => {
     const el = inputRef.current;
     if (!el) return;
@@ -37,26 +45,44 @@ export function Chat({ title = "AI Assistant", placeholder = "Type a message…"
 
   return (
     <div className="flex flex-col h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-      {/* ── Header ── */}
-      <header className="flex items-center justify-between px-5 py-4 border-b bg-gradient-to-r from-blue-600 to-blue-500">
+
+      {/* ── Header ────────────────────────────────────────────────────────── */}
+      <header className="flex items-center justify-between px-5 py-3 border-b bg-gradient-to-r from-blue-600 to-blue-500">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-          <h1 className="text-white font-semibold">{title}</h1>
+          <div className="w-2 h-2 rounded-full bg-green-400" />
+          <h1 className="text-white font-semibold text-sm">{title}</h1>
         </div>
-        <button
-          onClick={clear}
-          className="text-xs text-blue-100 hover:text-white transition-colors px-2 py-1 rounded hover:bg-blue-700"
-        >
-          New chat
-        </button>
+
+        <div className="flex items-center gap-3">
+          {/* Model selector */}
+          <select
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            disabled={isLoading}
+            className="text-xs bg-blue-700 text-white border border-blue-400 rounded-lg px-2 py-1
+                       focus:outline-none focus:ring-1 focus:ring-white disabled:opacity-50 cursor-pointer"
+          >
+            {MODELS.map((m) => (
+              <option key={m.id} value={m.id}>{m.label}</option>
+            ))}
+          </select>
+
+          <button
+            onClick={clear}
+            className="text-xs text-blue-100 hover:text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors"
+          >
+            New chat
+          </button>
+        </div>
       </header>
 
-      {/* ── Messages ── */}
+      {/* ── Messages ──────────────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5 scroll-smooth">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center gap-3 text-gray-400 py-16">
-            <div className="text-5xl">💬</div>
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-2 py-16">
+            <span className="text-4xl">💬</span>
             <p className="text-sm">Send a message to get started.</p>
+            <p className="text-xs text-gray-300">Your conversation is saved locally.</p>
           </div>
         )}
 
@@ -73,7 +99,15 @@ export function Chat({ title = "AI Assistant", placeholder = "Type a message…"
         <div ref={bottomRef} />
       </div>
 
-      {/* ── Input ── */}
+      {/* ── Usage bar ─────────────────────────────────────────────────────── */}
+      {usage && (
+        <div className="px-5 py-1.5 bg-gray-50 border-t text-xs text-gray-400 flex gap-4">
+          <span>↑ {usage.inputTokens.toLocaleString()} tokens in</span>
+          <span>↓ {usage.outputTokens.toLocaleString()} tokens out</span>
+        </div>
+      )}
+
+      {/* ── Input ─────────────────────────────────────────────────────────── */}
       <div className="border-t px-4 py-3 bg-gray-50">
         <div className="flex items-end gap-2">
           <textarea
@@ -88,7 +122,6 @@ export function Chat({ title = "AI Assistant", placeholder = "Type a message…"
                        text-sm leading-snug focus:outline-none focus:ring-2 focus:ring-blue-500
                        disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
           />
-
           {isLoading ? (
             <button
               onClick={stop}
@@ -102,8 +135,7 @@ export function Chat({ title = "AI Assistant", placeholder = "Type a message…"
               onClick={() => sendMessage()}
               disabled={!input.trim()}
               className="shrink-0 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-medium
-                         hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed
-                         transition-colors"
+                         hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               Send ↑
             </button>
