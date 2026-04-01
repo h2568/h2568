@@ -1,2 +1,2 @@
-// React hooks for use with Ink UI components.
-export {};
+export { useChat } from "./useChat";
+export type { UseChatOptions, UseChatReturn } from "./useChat";
