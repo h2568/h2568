@@ -2,15 +2,15 @@
   "name": "claude-flow",
   "version": "1.0.0",
   "description": "Claude Flow - AI agent orchestration CLI and SDK",
-  "main": "dist-cjs/src/sdk/claude-flow-mcp-integration.js",
+  "main": "dist-cjs/src/services/mcp-integration.js",
   "bin": {
     "claude-flow": "bin/claude-flow.js"
   },
   "exports": {
-    ".": "./dist-cjs/src/sdk/claude-flow-mcp-integration.js",
-    "./checkpoint-manager": "./dist-cjs/src/sdk/checkpoint-manager.js",
-    "./in-process-mcp": "./dist-cjs/src/sdk/in-process-mcp.js",
-    "./cli": "./dist-cjs/src/cli/simple-cli.js"
+    ".": "./dist-cjs/src/services/mcp-integration.js",
+    "./checkpoint-manager": "./dist-cjs/src/services/checkpoint-manager.js",
+    "./in-process-mcp": "./dist-cjs/src/server/in-process-mcp.js",
+    "./cli": "./dist-cjs/src/main.js"
   },
   "files": [
     "bin/",
@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist-cjs/src/cli/simple-cli.js",
+    "start": "node dist-cjs/src/main.js",
     "test": "node --test src/**/*.test.ts 2>/dev/null || echo 'No tests found'"
   },
   "keywords": [

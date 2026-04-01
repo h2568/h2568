@@ -97,7 +97,8 @@ export class ClaudeFlowMcpIntegration {
   }
 
   getMetrics(): Metrics & { averageDurationMs: number } {
-    const avg = this._metrics.toolCalls > 0 ? this._metrics.totalDurationMs / this._metrics.toolCalls : 0;
+    const avg =
+      this._metrics.toolCalls > 0 ? this._metrics.totalDurationMs / this._metrics.toolCalls : 0;
     return { ...this._metrics, averageDurationMs: avg };
   }
 

@@ -18,7 +18,10 @@ export interface McpOptions {
 export class InProcessMcp extends EventEmitter {
   private _tools: Map<string, Tool>;
   private _resources: Map<string, { uri: string; handler: (uri: string) => Promise<unknown> }>;
-  private _prompts: Map<string, { name: string; handler: (args: Record<string, unknown>) => Promise<unknown> }>;
+  private _prompts: Map<
+    string,
+    { name: string; handler: (args: Record<string, unknown>) => Promise<unknown> }
+  >;
   private _requestId: number;
   options: McpOptions;
 
@@ -32,8 +35,16 @@ export class InProcessMcp extends EventEmitter {
   }
 
   tool(name: string, handler: (args: Record<string, unknown>) => Promise<unknown>): this;
-  tool(name: string, schema: ToolSchema, handler: (args: Record<string, unknown>) => Promise<unknown>): this;
-  tool(name: string, schemaOrHandler: ToolSchema | ((args: Record<string, unknown>) => Promise<unknown>), handler?: (args: Record<string, unknown>) => Promise<unknown>): this {
+  tool(
+    name: string,
+    schema: ToolSchema,
+    handler: (args: Record<string, unknown>) => Promise<unknown>
+  ): this;
+  tool(
+    name: string,
+    schemaOrHandler: ToolSchema | ((args: Record<string, unknown>) => Promise<unknown>),
+    handler?: (args: Record<string, unknown>) => Promise<unknown>
+  ): this {
     if (typeof schemaOrHandler === "function") {
       this._tools.set(name, { name, schema: {}, handler: schemaOrHandler });
     } else {
@@ -71,7 +82,10 @@ export class InProcessMcp extends EventEmitter {
       case "tools/list":
         return this._listTools();
       case "tools/call": {
-        const { name, arguments: args } = (params ?? {}) as { name: string; arguments: Record<string, unknown> };
+        const { name, arguments: args } = (params ?? {}) as {
+          name: string;
+          arguments: Record<string, unknown>;
+        };
         return this._callTool(name, args);
       }
       case "resources/list":
@@ -83,7 +97,10 @@ export class InProcessMcp extends EventEmitter {
       case "prompts/list":
         return this._listPrompts();
       case "prompts/get": {
-        const { name, arguments: args } = (params ?? {}) as { name: string; arguments: Record<string, unknown> };
+        const { name, arguments: args } = (params ?? {}) as {
+          name: string;
+          arguments: Record<string, unknown>;
+        };
         return this._getPrompt(name, args);
       }
       default:
@@ -106,12 +123,19 @@ export class InProcessMcp extends EventEmitter {
     if (!tool) throw new Error(`Tool not found: ${name}`);
     const output = await tool.handler(args ?? {});
     return {
-      content: [{ type: "text", text: typeof output === "string" ? output : JSON.stringify(output, null, 2) }],
+      content: [
+        {
+          type: "text",
+          text: typeof output === "string" ? output : JSON.stringify(output, null, 2),
+        },
+      ],
     };
   }
 
   private _listResources() {
-    return { resources: Array.from(this._resources.values()).map((r) => ({ uri: r.uri, name: r.uri })) };
+    return {
+      resources: Array.from(this._resources.values()).map((r) => ({ uri: r.uri, name: r.uri })),
+    };
   }
 
   private async _readResource(uri: string) {
@@ -119,12 +143,20 @@ export class InProcessMcp extends EventEmitter {
     if (!resource) throw new Error(`Resource not found: ${uri}`);
     const content = await resource.handler(uri);
     return {
-      contents: [{ uri, mimeType: "text/plain", text: typeof content === "string" ? content : JSON.stringify(content, null, 2) }],
+      contents: [
+        {
+          uri,
+          mimeType: "text/plain",
+          text: typeof content === "string" ? content : JSON.stringify(content, null, 2),
+        },
+      ],
     };
   }
 
   private _listPrompts() {
-    return { prompts: Array.from(this._prompts.values()).map((p) => ({ name: p.name })) };
+    return {
+      prompts: Array.from(this._prompts.values()).map((p) => ({ name: p.name })),
+    };
   }
 
   private async _getPrompt(name: string, args: Record<string, unknown>) {

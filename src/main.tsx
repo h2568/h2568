@@ -1,6 +1,6 @@
 import { Command } from "commander";
-import { checkpointCommand } from "./commands/checkpoint";
-import { formatCommandHelp } from "./help-formatter";
+import { registerCommands } from "./commands";
+import { formatCommandHelp } from "./utils/help-formatter";
 
 const VERSION = "1.0.0";
 
@@ -17,17 +17,22 @@ export function createCli(): Command {
         formatCommandHelp(
           "claude-flow",
           "",
-          [{ name: "checkpoint", description: "Manage checkpoints" }],
+          [
+            { name: "checkpoint", description: "Manage checkpoints" },
+            { name: "hooks", description: "Manage lifecycle hooks" },
+          ],
           [],
           [
             "claude-flow checkpoint create my-save",
             "claude-flow checkpoint list",
             "claude-flow checkpoint restore cp_1234567890",
+            "claude-flow hooks list",
+            "claude-flow hooks add PreToolUse 'echo tool starting'",
           ]
         )
     );
 
-  checkpointCommand(program);
+  registerCommands(program);
 
   program.on("command:*", () => {
     console.error(`Unknown command: ${program.args.join(" ")}`);

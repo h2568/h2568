@@ -124,13 +124,17 @@ export function removeHook(event: string, index: number): void {
   saveSettings(settings);
 }
 
-export function runHook(event: string, data: unknown): { hook: HookRecord; success: boolean; output?: string; error?: string }[] {
+export function runHook(
+  event: string,
+  data: unknown
+): { hook: HookRecord; success: boolean; output?: string; error?: string }[] {
   const hooks = listHooks(event);
   const results: { hook: HookRecord; success: boolean; output?: string; error?: string }[] = [];
 
   hooks.forEach((hook) => {
     try {
-      const { execSync } = require("child_process");
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { execSync } = require("child_process") as typeof import("child_process");
       const output = execSync(hook.command, {
         input: JSON.stringify(data),
         encoding: "utf8",
