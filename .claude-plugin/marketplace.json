@@ -1,10 +1,82 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-03-24T00:00:00Z",
-  "plugins": [],
-  "installed": [],
+  "lastUpdated": "2026-05-07T00:00:00Z",
+  "plugins": [
+    {
+      "name": "claude-ads",
+      "namespace": "h2568-claude-ads",
+      "source": "h2568/claude-ads",
+      "description": "Comprehensive paid advertising audit, optimization, and AI creative generation. 250+ checks across Google, Meta, YouTube, LinkedIn, TikTok, Microsoft, and Apple Ads with weighted scoring, parallel agents, industry templates, PPC math, A/B test design, and PDF reports.",
+      "version": "1.5.1",
+      "author": {
+        "name": "h2568",
+        "url": "https://github.com/h2568"
+      },
+      "homepage": "https://github.com/h2568/claude-ads",
+      "repository": "https://github.com/h2568/claude-ads",
+      "license": "MIT",
+      "category": "marketing",
+      "tags": [
+        "advertising",
+        "audit",
+        "google-ads",
+        "meta-ads",
+        "linkedin-ads",
+        "tiktok-ads",
+        "microsoft-ads",
+        "apple-ads",
+        "ppc",
+        "optimization",
+        "creative-generation"
+      ],
+      "skills": [
+        "ads",
+        "ads-audit",
+        "ads-google",
+        "ads-meta",
+        "ads-youtube",
+        "ads-linkedin",
+        "ads-tiktok",
+        "ads-microsoft",
+        "ads-creative",
+        "ads-landing",
+        "ads-budget",
+        "ads-plan",
+        "ads-competitor",
+        "ads-math",
+        "ads-test",
+        "ads-dna",
+        "ads-generate",
+        "ads-photoshoot",
+        "ads-create",
+        "ads-apple"
+      ],
+      "agents": [
+        "audit-google",
+        "audit-meta",
+        "audit-creative",
+        "audit-tracking",
+        "audit-budget",
+        "audit-compliance",
+        "copy-writer",
+        "creative-strategist",
+        "format-adapter",
+        "visual-designer"
+      ]
+    }
+  ],
+  "installed": [
+    {
+      "name": "claude-ads",
+      "namespace": "h2568-claude-ads",
+      "version": "1.5.1",
+      "installedAt": "2026-05-07T00:00:00Z",
+      "skillsPath": ".claude/skills/",
+      "agentsPath": ".claude/agents/"
+    }
+  ],
   "registry": {
-    "url": "",
-    "lastSynced": null
+    "url": "https://github.com/h2568/claude-ads",
+    "lastSynced": "2026-05-07T00:00:00Z"
   }
 }
