@@ -8,7 +8,18 @@
   "env": {},
   "hooks": {
     "PreToolUse": [],
-    "PostToolUse": [],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"\nimport json, sys\ntry:\n    data = json.load(sys.stdin)\n    fp = str(data.get('tool_input', {}).get('file_path', '')).lower()\n    content = str(data.get('tool_input', {}).get('content', ''))\n    cl = content.lower()\n    is_draft = (any(k in fp for k in ['draft', 'email']) or ('subject:' in cl and 'to:' in cl) or ('subject:' in cl and '@' in content))\n    if is_draft:\n        print(json.dumps({'systemMessage': 'Hugo has written a draft email \\u2014 check your drafts.'}))\nexcept:\n    pass\n\" 2>/dev/null || true",
+            "statusMessage": "Checking for draft email..."
+          }
+        ]
+      }
+    ],
     "Stop": []
   }
 }
