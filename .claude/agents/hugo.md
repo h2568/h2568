@@ -593,6 +593,187 @@ Hugo can assist with:
 
 ---
 
+## Vantor Crew Ltd — Website Context
+
+Hugo has full context for the **Vantor Crew Ltd** website. Harry Gagen is the founder and the user behind this project.
+
+### Company Overview
+
+- **Company:** Vantor Crew Ltd
+- **Founder:** Harry Gagen — Crew Manager & Scenic Supervisor, 10+ years experience
+- **Services:** Professional event crewing — London, Manchester & Liverpool
+- **Incorporated:** December 2025 | **Company No.:** 15983759
+- **Registered Address:** 71-75 Shelton Street, Covent Garden, London WC2H 9JQ
+- **Phone:** +44 (0)7799 534291
+- **Email:** harry@vantorltd.com
+- **WhatsApp:** https://wa.me/447799534291
+- **LinkedIn:** linkedin.com/in/harry-gagen-a15ab32a9
+- **Website:** www.vantorltd.com
+- **Domain:** vantorltd.com (registered 123-reg, hosted Namecheap/cPanel, managed by George)
+- **Insurance:** £5M Public Liability
+
+### Technical Stack
+
+- **Single file site:** `index.html` (~296KB static HTML, SPA)
+- **Hosting:** Namecheap shared hosting (cPanel) — George uploads files
+- **Contact form:** Formspree endpoint `https://formspree.io/f/mgodydor` (50 submissions/month free)
+- **SSL:** AutoSSL via Namecheap cPanel (George enables/renews)
+- **Deployment:** Claude produces `index.html` → Harry downloads → sends to George via WhatsApp → George uploads to `public_html`
+
+### Design System
+
+```css
+:root {
+  --bg: #0a0a0a; --bg2: #111111; --bg3: #1a1a1a;
+  --acc: #F5C400;   /* gold accent */
+  --blue: #0057FF;
+  --muted: #888888;
+  --border: #222222;
+  --red: #ef4444;
+}
+```
+- **Fonts:** Space Grotesk (headings, 700–800 weight), Inter (body)
+- **Nav:** 72px height, logo 44px
+
+### Site Structure — 8 Pages (SPA)
+
+| Page ID | Purpose |
+|---------|---------|
+| `page-home` | Hero + marquee + How It Works + Services + Why Vantor + Work + Locations + FAQ |
+| `page-london` | London crew services, venues (ExCeL, Wembley, O2, etc.) |
+| `page-manchester` | Manchester/Liverpool crew, venues (Co-op Live, AO Arena, etc.) |
+| `page-services` | 5 service blocks with certifications |
+| `page-work` | Harry's pre-Vantor credits (01–06) + Vantor projects (07–12) |
+| `page-about` | Harry Gagen biography |
+| `page-contact` | Full enquiry form → Formspree |
+| `page-admin` | Redirect to Formspree dashboard |
+
+### Key Technical Decisions
+
+**Email obfuscation:** Namecheap auto-obfuscates emails. Fix: all email links use JS assembly — `data-u="harry"` + `data-d="vantorltd.com"` assembled at runtime via `String.fromCharCode(64)`. Class: `.emaillink`. Built by `buildEmails()`.
+
+**Hero form:** Does NOT submit directly. On submit: shows "Opening form…", calls `go('contact')`, then after 150ms pre-fills Location/Crew Type/Event Dates and scrolls form into view.
+
+**Response time:** Always **28 hours** everywhere (NOT 24). Stat counter `data-target="28"`, trust bar, FAQ, sidebar forms, meta descriptions.
+
+**Reveal animations — 3 failsafes:**
+1. CSS: `@keyframes revealFallback` forces `opacity:1` after 1.5s
+2. JS home: all `#page-home .reveal` get `.in` after 400ms on load
+3. JS global: all `.reveal` forced to `.in` after 1000ms
+
+**SPA navigation:** All 8 pages in DOM. `go(page)` shows target, hides others, updates nav, scrolls top, force-reveals after 100ms + 600ms.
+
+### Core JS Functions
+
+| Function | Purpose |
+|----------|---------|
+| `go(page)` | SPA navigation |
+| `subHero()` | Hero form → redirect to contact with pre-fill |
+| `subContact()` | Contact form → Formspree fetch POST |
+| `toggleFaq(n)` | FAQ accordion |
+| `togHam()` | Mobile hamburger |
+| `waToggle()` | WhatsApp widget |
+| `acceptCookie()` | Cookie banner dismiss (localStorage) |
+| `reinitReveal()` | IntersectionObserver for scroll animations |
+| `buildEmails()` | Assembles email links from data attributes |
+| `applyTilt()` | Hover tilt on cards |
+| `applyMagnetic()` | Magnetic hover on buttons |
+
+### Key CSS Classes
+
+| Class | Purpose |
+|-------|---------|
+| `.page` / `.page.active` | SPA page wrapper |
+| `.sec` / `.sec-alt` | Alternating section backgrounds |
+| `.reveal` / `.reveal.in` | Scroll fade-up animation |
+| `.btn` | Primary gold CTA button |
+| `.btnout` | Secondary outlined button |
+| `.scard` | Sidebar card |
+| `.work-card` | Project showcase card |
+| `.srv-block` | Service description block |
+| `.qcard` | Quote/credential card (no reveal — always visible) |
+| `.compare-wrap` | Comparison table (no reveal — always visible) |
+| `.emaillink` | JS-assembled email links |
+
+### Formspree Config
+
+- **Endpoint:** `https://formspree.io/f/mgodydor`
+- **Fields:** Full Name, Company, Phone, email, Location, Crew Type, Event Dates, Message
+- **Custom subject:** "New Crew Enquiry — Vantor Crew Ltd"
+- **Notifications to:** harry@vantorltd.com
+- **Dashboard:** https://formspree.io/forms
+
+### Harry's Credentials
+
+**Harry's personal pre-Vantor credits (NOT Vantor company credits — labelled with gold "Harry's Credit" badges):**
+- Paris Olympics 2024 (ES Global), Qatar AFC Asian Games 2023, Tomorrowland 2019, WWE Royal Rumble Riyadh, Abu Dhabi Grand Prix, MDL Beast Saudi Arabia 2018
+- Eurovision 2023, BAFTAs 2021–2024, Britain's Got Talent, Dancing on Ice
+- Glastonbury & Boomtown 2019–2022, BBC Radio 1 Big Weekend 2016–2018
+- Goodwood Festival of Speed with Ferrari 2025, Formula E London 2023 & 2025, London Fashion Week (Gucci/Prada/Burberry) 2021–2022
+- Circus Liverpool 2015–2025
+
+**Vantor company credits (07–12):**
+- BBC Radio 1 Big Weekend 2025, BBC Radio 2 in the Park 2025
+- Boomtown, Creamfields, Lost Village, El Dorado, MLB London Stadium, TikTok 2022–2025
+- Winter Wonderland 2025
+- Exhibition & trade shows (ExCeL London, Manchester Central)
+- TV & broadcast set builds
+
+**Harry's certifications:** IPAF 3A & 3B, Forklift/Telehandler (CPCS), Working at Heights, Site/Crew Management
+
+### Honesty Framework (CRITICAL)
+
+- All Olympic/Eurovision/Qatar credentials = **Harry's personal background**, NOT Vantor company credits
+- Trust bar: "Harry's background includes"
+- Marquee prefix: "Harry: Paris Olympics 2024" etc.
+- No fake testimonials (waiting for real ones)
+- No fake social proof (James T., Sarah M. etc. all removed)
+- Comparison table uses softened language ("Our commitment: confirmed means confirmed")
+
+### Audit Checklist (run before every delivery)
+
+Hugo must verify all of these pass before delivering `index.html`:
+
+- [ ] DOCTYPE, html, head, body, script, style all balanced
+- [ ] div 691/691, section 15/15, nav/footer/aside/article balanced
+- [ ] All 8 pages present (`page-home` through `page-admin`)
+- [ ] 6 email links via JS assembly (no raw emails, no `[email protected]`)
+- [ ] Formspree endpoint = `mgodydor`
+- [ ] Phone: `+44 (0)7799 534291` correct
+- [ ] WhatsApp: `wa.me/447799534291` (no + prefix)
+- [ ] Company No. 15983759 in footer
+- [ ] "28 hours" everywhere — zero instances of "24 hours"
+- [ ] Domain: `vantorltd.com` throughout (≥19 references)
+- [ ] No `/api/contact` references
+- [ ] No `FORMSPREE_ID` placeholder
+
+### Domain & DNS
+
+| Domain | Registrar | Status |
+|--------|----------|--------|
+| vantorltd.com | 123-reg (Harry has no direct access — call 0345 450 2310) | Live |
+| vantorltd.co.uk | 123-reg | Registered, not primary |
+| vantorcrewltd.co.uk | 123-reg | Old domain — NOT used in site code |
+
+DNS nameservers: `ns75.domaincontrol.com`, `ns76.domaincontrol.com`
+
+### Pending Items
+
+- Real client testimonials (need first completed job)
+- Real photo of Harry (About page)
+- OG image (1200×630px)
+- Companies House number 15983759 to verify at find-and-update.company-information.service.gov.uk
+
+### Blog Article (Not Yet Published)
+
+**Title:** "What Does a Crew Boss Actually Do on a Festival Build?" — 1,095 words, file: `blog-article.md`. Recommended: publish on LinkedIn or as a site page.
+
+### Future Stack (Not Deployed)
+
+Next.js 14 codebase in `vantor-crew-final.zip`, Neon PostgreSQL (AWS eu-west-2), Resend email, Vercel hosting, custom admin at `/admin/submissions`.
+
+---
+
 ## Conversation Handling
 
 If the user's request is unclear, ask one clarifying question. Do not ask multiple questions at once.
