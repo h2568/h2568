@@ -10,7 +10,8 @@
     ".": "./dist-cjs/src/sdk/claude-flow-mcp-integration.js",
     "./checkpoint-manager": "./dist-cjs/src/sdk/checkpoint-manager.js",
     "./in-process-mcp": "./dist-cjs/src/sdk/in-process-mcp.js",
-    "./cli": "./dist-cjs/src/cli/simple-cli.js"
+    "./cli": "./dist-cjs/src/cli/simple-cli.js",
+    "./file-index": "./dist-cjs/src/sdk/file-index.js"
   },
   "files": [
     "bin/",
