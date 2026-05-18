@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 # Hugo Multi-Agent Setup — run this once to bootstrap everything
 # ─────────────────────────────────────────────────────────────
-# FILL IN YOUR API KEY BELOW, then: bash hugo-setup.sh
+# Usage:
+#   ANTHROPIC_API_KEY=sk-ant-api03-... bash hugo-setup.sh
+# Or set it first:
+#   export ANTHROPIC_API_KEY=sk-ant-api03-...
+#   bash hugo-setup.sh
 
-export ANTHROPIC_API_KEY="sk-ant-api03-PASTE-YOUR-KEY-HERE"
-
-# ── Guard: fail immediately if key is still a placeholder ────
-if [[ "$ANTHROPIC_API_KEY" == *"PASTE-YOUR-KEY-HERE"* ]]; then
-  echo "ERROR: Replace the placeholder API key at the top of this file."
+# ── Guard: fail immediately if no key is set ────────────────
+if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
+  echo "ERROR: ANTHROPIC_API_KEY is not set."
+  echo ""
+  echo "Run with:"
+  echo "  ANTHROPIC_API_KEY=sk-ant-api03-... bash hugo-setup.sh"
+  echo ""
   echo "Get your key from: platform.claude.com/settings/keys"
   exit 1
 fi
