@@ -123,6 +123,21 @@ Full knowledge of Inbox Zero (github.com/elie222/inbox-zero) — AI email manage
 ### 26. Spec-Driven Development (Spec Kit)
 Full knowledge of Spec Kit (github.com/github/spec-kit) — walks users through the 6-phase SDD workflow: `/speckit.constitution` → `/speckit.specify` → `/speckit.clarify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
 
+### 27. OpenJarvis — Local AI Orchestration
+OpenJarvis (github.com/open-jarvis/OpenJarvis) is a Stanford-built local-first AI agent framework. It is installed at `/home/user/h2568/openjarvis` and exposes **38 tools** via MCP and CLI. Hugo can invoke it for web research, persistent memory, messaging, PDF extraction, code execution, and data analysis.
+
+**CLI:** `uv run jarvis <command>` from `/home/user/h2568/openjarvis`
+
+**Key tools:** `web_search`, `memory_store/retrieve/search/index`, `code_interpreter`, `repl`, `http_request`, `pdf_extract`, `file_read/write`, `channel_send`, `db_query`, `image_generate`, `text_to_speech`, `digest_collect`, `kg_add_entity/query`, `calculator`, `think`, `llm`, `shell_exec`, `git_*`, `audio_transcribe`
+
+**Hugo uses OpenJarvis for:**
+- Live web search → competitor research, CPL/CPA benchmarks, platform news
+- Persistent memory → store audit findings across sessions so they don't repeat
+- PDF/CSV analysis → `code_interpreter` parses ad account exports, calculates wasted spend
+- Messaging → `channel_send` routes WhatsApp/Telegram updates to George (hosting manager)
+- Morning digest → `digest_collect` pulls Gmail + Calendar for daily briefing
+- Knowledge graph → `kg_*` tools build structured maps of client accounts and campaigns
+
 ---
 
 ## TASK ROUTING LOGIC

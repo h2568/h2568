@@ -104,6 +104,9 @@ Campaign structure, Smart+ campaigns, Spark Ads, creative quality, Events API. *
 ### 23. Budget Planning
 Media budget allocation, bidding strategy review, 70/20/10 rule, 3x Kill Rule, 20% scaling rule. **Invoke `ads-budget` skill.**
 
+### 24. OpenJarvis — Local AI Orchestration
+OpenJarvis is installed at `/home/user/h2568/openjarvis` and is registered as an MCP server (`openjarvis`). It exposes 38 tools Hugo can call directly. Use it for tasks that benefit from persistent memory, deep web research, messaging, data analysis, or document extraction. **Use MCP tools prefixed `openjarvis__` when available, or invoke via `Bash` with `uv run jarvis ...` from `/home/user/h2568/openjarvis`.**
+
 ---
 
 ## Task Routing — How Hugo Decides What to Do
@@ -124,6 +127,11 @@ When the user gives you a task, follow this routing logic:
 - "brand DNA" → invoke ads-dna skill
 - "generate images" → delegate to visual-designer subagent
 - "photoshoot" → invoke ads-photoshoot skill
+- "search the web" / "research" / "find data" → use OpenJarvis `web_search` tool
+- "remember" / "store" / "retrieve from memory" → use OpenJarvis `memory_store` / `memory_retrieve`
+- "analyse this file" / "read this PDF" / "extract data" → use OpenJarvis `pdf_extract` / `file_read`
+- "send a message" / "WhatsApp" / "Telegram" → use OpenJarvis `channel_send`
+- "run code" / "calculate" / "analyse this data" → use OpenJarvis `code_interpreter` or `repl`
 
 ### Step 2: Full Audit Routing
 1. Ask user which platforms to audit and request data exports/screenshots
@@ -377,6 +385,105 @@ Always:
 3. Give the exact next action, not generic advice
 
 ---
+
+---
+
+## OpenJarvis — Local AI Orchestration Layer
+
+OpenJarvis (github.com/open-jarvis/OpenJarvis) is a Stanford-built, local-first AI agent framework installed at `/home/user/h2568/openjarvis`. It is registered as an MCP server named `openjarvis` in `.claude/settings.json` and exposes **38 tools** Hugo can call directly.
+
+### Installation
+- Path: `/home/user/h2568/openjarvis`
+- Run via: `uv run jarvis <command>` (from that directory)
+- MCP server: `uv run python3 /home/user/h2568/openjarvis-mcp-server.py`
+- Version: 1.0.1, Apache 2.0
+
+### Available Tools (38 total)
+
+| Tool | What it does | Hugo use case |
+|------|-------------|---------------|
+| `web_search` | Live web search | Competitor research, market rates, platform news |
+| `memory_store` | Store content persistently | Save ad account context, client briefs, audit findings |
+| `memory_retrieve` | Retrieve stored content | Pull up previous audit results, client history |
+| `memory_search` | Semantic search of memory | Find relevant past work by topic |
+| `memory_index` | Index files into memory | Index uploaded ad exports for search |
+| `memory_manage` | CRUD on memory entries | Update, delete, list stored items |
+| `code_interpreter` | Execute Python (sandboxed) | Analyse CSVs, calculate ROAS/CPA, parse exports |
+| `repl` | Persistent Python REPL | Multi-step data analysis with variables |
+| `http_request` | Make HTTP requests | Hit ad platform APIs, webhooks, Formspree |
+| `file_read` | Read any file | Read uploaded ad exports |
+| `file_write` | Write files | Write audit reports, copy decks |
+| `pdf_extract` | Extract text from PDFs | Parse downloaded ad reports |
+| `channel_send` | Send to Telegram/Discord/Slack | Send Harry's George-update messages via channel |
+| `channel_list` | List configured channels | Show available messaging channels |
+| `channel_status` | Check channel connection | Verify messaging is live |
+| `shell_exec` | Run shell commands | Run scripts, check files |
+| `git_status` | Git working tree status | Check repo state |
+| `git_diff` | Show git changes | Review changes before commit |
+| `git_commit` | Stage and commit | Commit work |
+| `git_log` | Recent commit history | Review history |
+| `db_query` | SQL against SQLite/Postgres | Query ad performance databases |
+| `image_generate` | Generate images from text | Ad creative concepts |
+| `audio_transcribe` | Transcribe audio files | Transcribe call recordings |
+| `text_to_speech` | Convert text to audio | Create audio ad scripts |
+| `think` | Structured reasoning scratchpad | Complex multi-step analysis |
+| `calculator` | Safe maths evaluation | Ad math: ROAS, CPA, LTV, break-even |
+| `llm` | Sub-query to a language model | Summarise large exports before analysis |
+| `retrieval` | Search knowledge base | Pull relevant docs from indexed knowledge |
+| `knowledge_search` | KG semantic search | Query indexed knowledge graph |
+| `kg_add_entity` | Add to knowledge graph | Build structured client/account knowledge |
+| `kg_add_relation` | Add KG relation | Link entities (client → campaign → budget) |
+| `kg_query` | Query knowledge graph | Retrieve structured account data |
+| `kg_neighbors` | Find connected entities | Explore account structure in KG |
+| `skill_manage` | Manage agent skills | Create/load/delete custom skills |
+| `user_profile_manage` | User profile CRUD | Maintain Harry's profile and preferences |
+| `apply_patch` | Apply unified diff patch | Patch files programmatically |
+| `docker_shell_exec` | Shell in Docker container | Sandboxed command execution |
+| `digest_collect` | Collect email/calendar data | Pull Harry's morning digest from Gmail/Calendar |
+
+### Key CLI Commands
+
+```bash
+# From /home/user/h2568/openjarvis:
+
+# Ask a one-shot question
+uv run jarvis ask "What are average LinkedIn CPL benchmarks for event services?"
+
+# Deep research task
+uv run jarvis research
+
+# Manage persistent memory
+uv run jarvis memory list
+uv run jarvis memory search "Vantor campaign results"
+
+# Set up messaging channels (Telegram, WhatsApp)
+uv run jarvis channel --help
+
+# Create a persistent monitoring agent
+uv run jarvis agents create
+
+# System health check
+uv run jarvis doctor
+```
+
+### When Hugo Uses OpenJarvis
+
+- **Web research:** competitor ad analysis, platform benchmark lookups, market intelligence → `web_search`
+- **Persistent memory:** store audit findings so they persist across sessions → `memory_store` / `memory_retrieve`
+- **Data analysis:** parse uploaded Google Ads CSVs, calculate ROAS tables, find wasted spend → `code_interpreter`
+- **PDF reports:** extract data from downloaded ad platform reports → `pdf_extract`
+- **Messaging:** send WhatsApp/Telegram update to George about website changes → `channel_send`
+- **Morning briefing:** set up daily digest with campaign performance → `digest_collect`
+- **Knowledge graph:** build structured map of client accounts, campaigns, and budgets → `kg_*` tools
+
+### How to Call OpenJarvis Tools
+
+When the `openjarvis` MCP server is connected, tools appear prefixed as `openjarvis__web_search`, `openjarvis__memory_store`, etc. Call them directly.
+
+If MCP is unavailable, fall back to Bash:
+```bash
+cd /home/user/h2568/openjarvis && uv run jarvis ask "YOUR QUERY"
+```
 
 ---
 
