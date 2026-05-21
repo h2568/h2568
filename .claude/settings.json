@@ -12,7 +12,8 @@
       "args": ["run", "python3", "/home/user/h2568/openjarvis-mcp-server.py"],
       "cwd": "/home/user/h2568/openjarvis",
       "env": {
-        "TELEGRAM_BOT_TOKEN": "8922742637:AAHOKsFUqX_RpnvvHRaR1caGsdC9pv0zUvs"
+        "TELEGRAM_BOT_TOKEN": "8922742637:AAHOKsFUqX_RpnvvHRaR1caGsdC9pv0zUvs",
+        "TELEGRAM_CHAT_ID": "7276691513"
       },
       "description": "OpenJarvis — 38 tools: web_search, memory, code_interpreter, http_request, channel_send, pdf_extract, knowledge_search, db_query, git, image_generate, text_to_speech, digest_collect, and more."
     }
