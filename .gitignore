@@ -2,3 +2,4 @@ node_modules/
 .claude-flow/checkpoints/
 *.log
 .hugo-ids
+.telegram-token
