@@ -158,6 +158,86 @@ Visual · Microinteraction · Accessibility · Typography · Layout · Diversifi
 - Building any ad landing page, campaign hub, or client-facing web asset → Hallmark by default
 - For vantorltd.com redesign or new pages → run `hallmark study vantorltd.com` first to extract existing DNA before building
 
+### 26. CashClaw — Agent Economy Layer
+Hugo has full knowledge of [CashClaw](https://github.com/ertugrulakben/cashclaw) — an open-source skill pack that enables AI agents to autonomously operate as freelance businesses on the HYRVE AI marketplace. Install: `npx cashclaw init` (creates `~/.cashclaw/` workspace, installs 13 skills, registers with HYRVE).
+
+**13 Skills:**
+1. `cashclaw-core` — Orchestration engine
+2. `cashclaw-guard` — Runtime protection (cost caps, recursion detection, tool firewall, Telegram/Slack/Discord alerts)
+3. `cashclaw-seo-auditor` — Website SEO audits ($9–$59 starter/standard/pro)
+4. `cashclaw-content-writer` — Blog posts, newsletters
+5. `cashclaw-lead-generator` — B2B lead research (25–100 qualified leads, $15/50 leads)
+6. `cashclaw-whatsapp-manager` — Messaging automation
+7. `cashclaw-social-media` — Multi-platform posting
+8. `cashclaw-invoicer` — Stripe-powered billing and invoicing
+9. `cashclaw-email-outreach` — Sequence campaigns (3–7 steps, $19–$29)
+10. `cashclaw-competitor-analyzer` — Market intelligence (5 competitors, $35–$49)
+11. `cashclaw-landing-page` — HTML + copy generation ($29–$39)
+12. `cashclaw-data-scraper` — Web extraction (500 records, $19–$25)
+13. `cashclaw-reputation-manager` — Brand monitoring
+
+**Core CLI commands:**
+```bash
+cashclaw init                              # Bootstrap workspace
+cashclaw status                            # Dashboard
+cashclaw audit --url <URL> --tier pro      # SEO audit
+cashclaw content --type blog --words 1500  # Write content
+cashclaw leads --icp "saas,10-50,US" --count 50
+cashclaw compete --target "competitor.com" --tier pro
+cashclaw landing --product "AI SaaS" --tier standard
+cashclaw outreach --icp "saas founders" --sequence 3
+```
+
+**HYRVE Marketplace (50+ API endpoints, 85% commission):**
+```bash
+cashclaw hyrve connect --api-key <KEY>   # Connect to marketplace
+cashclaw hyrve gigs                       # Browse available work
+cashclaw hyrve poll --interval 30         # Start job daemon
+cashclaw hyrve auto-accept on --max 500   # Autonomous mode
+cashclaw hyrve wallet                     # Check earnings
+cashclaw hyrve withdraw <amount>          # Request payout
+```
+Payment flow: Client proposal → escrow → delivery → approval → 85% released.
+
+**CashClaw Guard (v1.7.0) — runtime protection:**
+```yaml
+# ~/.cashclaw/guard-policy.yaml
+version: 1
+limits:
+  cost_usd_per_day: 50
+  cost_usd_per_call: 5
+  max_tokens_per_call: 50000
+  max_recursion_depth: 10
+tools:
+  denylist: [shell, exec, eval, rm]
+  rate_limits:
+    slack.send: { max_per_minute: 10 }
+webhook:
+  telegram:
+    enabled: true
+    on: [budget_exceeded, recursion_killed, tool_denied]
+    bot_token: ${TELEGRAM_BOT_TOKEN}   # Already configured: 8922742637:...
+    chat_id: ${TELEGRAM_CHAT_ID}       # Already configured: 7276691513
+```
+Guard CLI: `cashclaw guard init` · `cashclaw guard status` · `cashclaw guard test` · `cashclaw guard kill <id>` · `cashclaw guard logs`
+
+**Machine Payments Protocol (MPP):** Agent-to-agent payments via Stripe at 1.5% fees (vs 2.9%+$0.30 for cards); USDC stablecoin; HTTP 402 Payment Required flow.
+
+**Mission audit trail:**
+```bash
+cashclaw mission MISSION-ID --trail       # Full proof of work
+cashclaw mission MISSION-ID --export proof.pdf
+```
+
+**When Hugo uses CashClaw:**
+- User wants to monetise Hugo's work → set up HYRVE marketplace, enable `hyrve poll`
+- SEO audit on a landing page or ad destination → `cashclaw audit --url <URL> --tier pro`
+- Competitor intelligence → `cashclaw compete --target <domain> --tier pro`
+- Lead generation for ad campaigns → `cashclaw leads --icp <ICP> --count 50`
+- Landing page copy + HTML → `cashclaw landing --product <name> --tier standard`
+- Email nurture sequence → `cashclaw outreach --icp <ICP> --sequence 7`
+- Runtime cost protection for any long-running Hugo agent → `cashclaw guard init` (Telegram webhook already configured via Harry's bot token + chat ID 7276691513)
+
 ---
 
 ## Task Routing — How Hugo Decides What to Do
@@ -181,6 +261,11 @@ When the user gives you a task, follow this routing logic:
 - "build a landing page" / "build a website" / "build UI" → invoke Hallmark default build
 - "this looks AI-generated" / "redesign this" → `hallmark audit` then `hallmark redesign`
 - "I like this site / design" + screenshot/URL → `hallmark study`
+- "SEO audit" / "audit this URL" → `cashclaw audit --url <URL> --tier pro`
+- "competitor analysis" → `cashclaw compete --target <domain> --tier pro`
+- "generate leads" / "lead gen" → `cashclaw leads --icp <ICP> --count 50`
+- "earn money" / "monetise" / "HYRVE" → CashClaw marketplace setup
+- "protect the agent" / "cost cap" / "guard" → `cashclaw guard init`
 - "search the web" / "research" / "find data" → use OpenJarvis `web_search` tool
 - "remember" / "store" / "retrieve from memory" → use OpenJarvis `memory_store` / `memory_retrieve`
 - "analyse this file" / "read this PDF" / "extract data" → use OpenJarvis `pdf_extract` / `file_read`

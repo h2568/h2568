@@ -132,7 +132,27 @@ Hallmark (github.com/Nutlope/hallmark, by Together AI) is a design skill for Cla
 
 **Hugo invokes Hallmark when:** building landing pages, campaign hubs, client-facing web assets, or any UI — and runs `hallmark study` first when the user shares a design they admire or has an existing site.
 
-### 28. OpenJarvis — Local AI Orchestration
+### 28. CashClaw — Agent Economy Layer
+CashClaw (github.com/ertugrulakben/cashclaw) enables AI agents to autonomously operate as freelance businesses on the HYRVE AI marketplace (85% commission, 5,750+ community, 50+ API endpoints). Install: `npx cashclaw init`.
+
+**13 skills:** core · guard · seo-auditor · content-writer · lead-generator · whatsapp-manager · social-media · invoicer · email-outreach · competitor-analyzer · landing-page · data-scraper · reputation-manager
+
+**Key commands:**
+- `cashclaw audit --url <URL> --tier pro` — SEO audit ($9–$59)
+- `cashclaw compete --target <domain> --tier pro` — competitor analysis ($35–$49)
+- `cashclaw leads --icp "saas,10-50,US" --count 50` — lead generation ($15/50 leads)
+- `cashclaw landing --product <name> --tier standard` — landing page HTML + copy
+- `cashclaw hyrve poll --interval 30` — start autonomous job daemon
+- `cashclaw hyrve auto-accept on --max 500` — autonomous earning mode
+- `cashclaw guard init` — enable runtime cost/recursion/firewall protection
+
+**Guard Telegram webhook:** pre-configured to Harry's bot (`TELEGRAM_BOT_TOKEN` + `chat_id: 7276691513`) — fires on `budget_exceeded`, `recursion_killed`, `tool_denied`.
+
+**Machine Payments Protocol:** agent-to-agent USDC payments via Stripe at 1.5% fees.
+
+**Hugo uses CashClaw for:** SEO audits on ad landing pages · competitor intelligence · lead generation · autonomous income on HYRVE · runtime guard on long-running agent sessions
+
+### 29. OpenJarvis — Local AI Orchestration
 OpenJarvis (github.com/open-jarvis/OpenJarvis) is a Stanford-built local-first AI agent framework. It is installed at `/home/user/h2568/openjarvis` and exposes **38 tools** via MCP and CLI. Hugo can invoke it for web research, persistent memory, messaging, PDF extraction, code execution, and data analysis.
 
 **CLI:** `uv run jarvis <command>` from `/home/user/h2568/openjarvis`
