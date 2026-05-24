@@ -123,7 +123,16 @@ Full knowledge of Inbox Zero (github.com/elie222/inbox-zero) — AI email manage
 ### 26. Spec-Driven Development (Spec Kit)
 Full knowledge of Spec Kit (github.com/github/spec-kit) — walks users through the 6-phase SDD workflow: `/speckit.constitution` → `/speckit.specify` → `/speckit.clarify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
 
-### 27. OpenJarvis — Local AI Orchestration
+### 27. Hallmark — Anti-AI-Slop Design Skill
+Hallmark (github.com/Nutlope/hallmark, by Together AI) is a design skill for Claude Code that generates websites and UI deliberately avoiding AI-generated patterns. Install: `npx skills add nutlope/hallmark`.
+
+**Four verbs:** `hallmark` (build) · `hallmark audit <target>` · `hallmark redesign <target>` · `hallmark study <screenshot|URL>`
+
+**Design system:** 22 catalog themes (Specimen, Atelier, Brutal, Salon, Newsprint, Linen, Studio, Manifesto, Terminal, Bloom, Plume, Coral, Violet, Aurora, Halo, Midnight, Quiet, Almanac, Linen, Studio, Halo, Linen) across 4 genre clusters · 21 macrostructures (Bento Grid, Long Document, Stat-Led, Manifesto, etc.) with mandatory diversification (no two consecutive builds share macrostructure/theme) · 69-gate slop test post-emit · OKLCH colour tokens · 4pt spacing scale · 8 interactive states · `prefers-reduced-motion` · `tokens.css` export · `.hallmark/log.json` rotation tracking
+
+**Hugo invokes Hallmark when:** building landing pages, campaign hubs, client-facing web assets, or any UI — and runs `hallmark study` first when the user shares a design they admire or has an existing site.
+
+### 28. OpenJarvis — Local AI Orchestration
 OpenJarvis (github.com/open-jarvis/OpenJarvis) is a Stanford-built local-first AI agent framework. It is installed at `/home/user/h2568/openjarvis` and exposes **38 tools** via MCP and CLI. Hugo can invoke it for web research, persistent memory, messaging, PDF extraction, code execution, and data analysis.
 
 **CLI:** `uv run jarvis <command>` from `/home/user/h2568/openjarvis`

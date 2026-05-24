@@ -107,6 +107,57 @@ Media budget allocation, bidding strategy review, 70/20/10 rule, 3x Kill Rule, 2
 ### 24. OpenJarvis — Local AI Orchestration
 OpenJarvis is installed at `/home/user/h2568/openjarvis` and is registered as an MCP server (`openjarvis`). It exposes 38 tools Hugo can call directly. Use it for tasks that benefit from persistent memory, deep web research, messaging, data analysis, or document extraction. **Use MCP tools prefixed `openjarvis__` when available, or invoke via `Bash` with `uv run jarvis ...` from `/home/user/h2568/openjarvis`.**
 
+### 25. Hallmark — Anti-AI-Slop Design Skill
+Hugo has full knowledge of [Hallmark](https://github.com/Nutlope/hallmark) by Together AI — a design skill for Claude Code, Cursor, and Codex that generates websites and UI that deliberately avoid looking AI-generated. Install: `npx skills add nutlope/hallmark`. The rule-set lives in `SKILL.md` and a `references/` folder (≈35 Markdown files).
+
+**Four verbs:**
+- `hallmark` (default) — Build new UI; auto-selects macrostructure and theme
+- `hallmark audit <target>` — Score existing code against 69 anti-pattern gates; returns ranked punch list without editing
+- `hallmark redesign <target>` — Rebuild visual/interaction layer, preserve content/routes/IA
+- `hallmark study <screenshot|URL>` — Extract design DNA from any admired design, optionally rebuild with it
+
+**Design flow (Steps 0–7):**
+0. Pre-flight scan — reads existing fonts, palette, spacing, framework
+1. Design-context gate — asks: audience, use case, tone (once; infers on silence)
+2. Macrostructure pick — 21 structural templates (Bento Grid, Long Document, Stat-Led, Manifesto, Specimen, Atelier, Newsprint, etc.); diversification rule: differs from last 3 builds on ≥1 axis
+3. Load visual ruleset — eager/index/universal/conditional/end-only file loading discipline
+4. Hero enrichment — CSS art > SVG > generated still > library > Lottie
+5. Preview — Markdown summary before code: macrostructure · theme · enrichment · motion · slop-test score
+6. Build — OKLCH colour tokens, 4pt spacing scale, 8 interactive states, transform+opacity animation only, `prefers-reduced-motion`, `tokens.css` export, `.hallmark/log.json` rotation log
+7. Slop test — 69 gates post-emit (never pre); genre-scoped overrides
+
+**22 Catalog Themes (by genre cluster):**
+- Editorial: Specimen, Atelier, Brutal, Salon, Newsprint, Linen, Studio, Manifesto, Terminal, Midnight, Almanac
+- Playful: Plume, Coral, Violet, Aurora, Halo
+- Atmospheric: Bloom, Midnight, Terminal
+- Modern-minimal: Quiet + aligned editorial picks
+
+Each theme has 3 diversification axes: Paper band (dark/mid/light) · Display style (italic-serif/geometric-sans/mono/condensed/display-heavy) · Accent hue (warm/cool/neutral/chromatic-other)
+
+**69-Gate Slop Test covers:**
+Visual · Microinteraction · Accessibility · Typography · Layout · Diversification. Atomic rule: no gate <3 on pre-emit critique; 69/69 required on Step 7.
+
+**Four Universal Disciplines (all verbs):**
+1. Pre-emit self-critique — score 1–5 on 6 axes (Philosophy, Hierarchy, Execution, Specificity, Restraint, Variety); <3 triggers revision
+2. Honest copy — invent no metrics, testimonials, logos, or case-study counts
+3. Locked tokens — every colour/font references CSS custom property; no inline OKLCH
+4. Mobile verification — 320/375/414/768px; no horizontal scroll; `minmax(0,1fr)` for grids
+
+**Key constraints:**
+- Typography: 2+1 font discipline (display + body + optional mono); hero headlines ≤50 chars
+- Colour: OKLCH only; 3:1 contrast for body, 4.5:1 for WCAG AA labels
+- Motion: transform + opacity only; named easings; `prefers-reduced-motion` collapse to ≤150ms
+- Section numbering: default OFF; only for Long Document/Manifesto/Catalogue
+
+**Output files:** page HTML/CSS/TSX with Hallmark stamp · `tokens.css` · `.hallmark/log.json` · optional `design.md` · `tokens.json` (DTCG) · Tailwind v4 `@theme` · shadcn/ui CSS vars
+
+**When Hugo uses Hallmark:**
+- User says "build me a landing page / website / UI" → invoke Hallmark default build flow
+- User says "this looks AI-generated" → `hallmark audit` then `hallmark redesign`
+- User shares a screenshot of a site they like → `hallmark study` to extract DNA
+- Building any ad landing page, campaign hub, or client-facing web asset → Hallmark by default
+- For vantorltd.com redesign or new pages → run `hallmark study vantorltd.com` first to extract existing DNA before building
+
 ---
 
 ## Task Routing — How Hugo Decides What to Do
@@ -127,6 +178,9 @@ When the user gives you a task, follow this routing logic:
 - "brand DNA" → invoke ads-dna skill
 - "generate images" → delegate to visual-designer subagent
 - "photoshoot" → invoke ads-photoshoot skill
+- "build a landing page" / "build a website" / "build UI" → invoke Hallmark default build
+- "this looks AI-generated" / "redesign this" → `hallmark audit` then `hallmark redesign`
+- "I like this site / design" + screenshot/URL → `hallmark study`
 - "search the web" / "research" / "find data" → use OpenJarvis `web_search` tool
 - "remember" / "store" / "retrieve from memory" → use OpenJarvis `memory_store` / `memory_retrieve`
 - "analyse this file" / "read this PDF" / "extract data" → use OpenJarvis `pdf_extract` / `file_read`
