@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-05-07T00:00:00Z",
+  "lastUpdated": "2026-06-13T18:27:30Z",
   "plugins": [
     {
       "name": "claude-ads",
@@ -63,6 +63,68 @@
         "format-adapter",
         "visual-designer"
       ]
+    },
+    {
+      "name": "claude-ads",
+      "namespace": "agricidaniel-claude-ads",
+      "source": "AgriciDaniel/claude-ads",
+      "description": "Comprehensive paid advertising audit, optimization, and AI creative generation. 250+ checks across Google, Meta, YouTube, LinkedIn, TikTok, Microsoft, and Apple Ads.",
+      "version": "1.5.1",
+      "author": {
+        "name": "AgriciDaniel",
+        "url": "https://github.com/AgriciDaniel"
+      },
+      "homepage": "https://github.com/AgriciDaniel/claude-ads",
+      "repository": "https://github.com/AgriciDaniel/claude-ads",
+      "license": "MIT",
+      "category": "marketing",
+      "tags": [
+        "advertising",
+        "audit",
+        "google-ads",
+        "meta-ads",
+        "linkedin-ads",
+        "tiktok-ads",
+        "microsoft-ads",
+        "apple-ads",
+        "ppc",
+        "optimization",
+        "creative-generation"
+      ],
+      "skills": [
+        "ads",
+        "ads-audit",
+        "ads-google",
+        "ads-meta",
+        "ads-youtube",
+        "ads-linkedin",
+        "ads-tiktok",
+        "ads-microsoft",
+        "ads-creative",
+        "ads-landing",
+        "ads-budget",
+        "ads-plan",
+        "ads-competitor",
+        "ads-math",
+        "ads-test",
+        "ads-dna",
+        "ads-generate",
+        "ads-photoshoot",
+        "ads-create",
+        "ads-apple"
+      ],
+      "agents": [
+        "audit-google",
+        "audit-meta",
+        "audit-creative",
+        "audit-tracking",
+        "audit-budget",
+        "audit-compliance",
+        "copy-writer",
+        "creative-strategist",
+        "format-adapter",
+        "visual-designer"
+      ]
     }
   ],
   "installed": [
@@ -73,10 +135,18 @@
       "installedAt": "2026-05-07T00:00:00Z",
       "skillsPath": ".claude/skills/",
       "agentsPath": ".claude/agents/"
+    },
+    {
+      "name": "claude-ads",
+      "namespace": "agricidaniel-claude-ads",
+      "version": "1.5.1",
+      "installedAt": "2026-06-13T18:27:30Z",
+      "skillsPath": ".claude/skills/",
+      "agentsPath": ".claude/agents/"
     }
   ],
   "registry": {
     "url": "https://github.com/h2568/claude-ads",
-    "lastSynced": "2026-05-07T00:00:00Z"
+    "lastSynced": "2026-06-13T18:27:30Z"
   }
 }
